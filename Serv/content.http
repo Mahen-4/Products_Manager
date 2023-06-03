@@ -1,0 +1,33 @@
+### Find All Content
+GET http://localhost:8080/api/content/
+
+### Create new Content
+POST http://localhost:8080/api/content/
+Content-Type: application/json
+
+{
+    "id":4,
+    "name":"Manual Post",
+    "desc":"Brand : Manual",
+    "price":800,
+    "quantity":150,
+    "type":"PHONES",
+    "image":"url/image",
+    "inTrend":true
+}
+### Update existing Content
+PUT http://localhost:8080/api/content/4
+Content-Type: application/json
+
+{
+    "id":4,
+    "name":"Manual Update",
+    "desc":"Brand : Manual",
+    "price":800,
+    "quantity":150,
+    "type":"PHONES",
+    "image":"url/image",
+    "inTrend":true
+}
+### DELETE BY ID content
+DELETE http://localhost:8080/api/content/4

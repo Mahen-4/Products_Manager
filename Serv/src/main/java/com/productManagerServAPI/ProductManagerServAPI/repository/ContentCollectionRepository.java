@@ -13,17 +13,17 @@ import java.util.stream.Collectors;
 
 @Repository
 public class ContentCollectionRepository {
-    private final List<Content> content = new ArrayList<>(); // new array of Content type
+    private final List<Content> contentList = new ArrayList<>(); // new array of Content type
 
     public ContentCollectionRepository(){} // constructor
 
     public List<Content> findAll(){ // find all content
-        return content;
+        return contentList;
     }
 
     public Optional<Content> findById(Integer id){
     //We use Optional to check the presence of an optional element (an element that may not exist) before using it
-        return content.stream().filter(c -> c.id().equals(id)).findFirst();
+        return contentList.stream().filter(c -> c.id().equals(id)).findFirst();
         //stream is used to make operations on elements
     }
     public List<Content> findByType(Type type){
@@ -31,8 +31,14 @@ public class ContentCollectionRepository {
         Predicate<Content> byType = c -> c.type().equals(type);
 
 
-        return content.stream().filter(byType).collect(Collectors.toList());
+        return contentList.stream().filter(byType).collect(Collectors.toList());
     }
+    public void save(Content content){
+        // if we find one we delete it and we add it back (not the best way to do that update actually but will change later )
+        contentList.removeIf(c -> c.id().equals(content.id()));
+        contentList.add(content);
+    }
+
     @PostConstruct
     private void init(){
         Content a = new Content(
@@ -66,8 +72,17 @@ public class ContentCollectionRepository {
                 true
         );
 
-        content.add(a);
-        content.add(b);
-        content.add(c);
+        contentList.add(a);
+        contentList.add(b);
+        contentList.add(c);
+    }
+
+
+    public boolean existById(Integer id) {
+        return contentList.stream().filter(c -> c.id().equals(id)).count() == 1;
+    }
+
+    public void delete(Integer id) {
+        contentList.removeIf(c -> c.id().equals(id));
     }
 }
